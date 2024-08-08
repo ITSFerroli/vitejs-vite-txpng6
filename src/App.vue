@@ -1,30 +1,21 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+import VirtualScroller from 'primevue/virtualscroller';
+
+const items = ref(Array.from({ length: 100000 }).map((_, i) => `Item #${i}`));
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+	<div class="flex justify-center">
+		<VirtualScroller :items="items" :item-size="50"
+			class="border border-surface-300 dark:border-surface-700 rounded-md" style="width: 200px; height: 200px">
+			<template #item="{ item, options }">
+				<div :class="['flex items-center p-2', { 'bg-surface-100 dark:bg-surface-700': options.odd }]"
+					style="height: 50px">
+					{{ item }}
+				</div>
+			</template>
+		</VirtualScroller>
+	</div>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
